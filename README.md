@@ -1,4 +1,82 @@
- 
+## Kıdemli 
+Kıdemli .NET Mülakat Soruları ve Cevapları
+🔹 C# ve CLR
+Task vs ValueTask → Task heap allocation yapar, ValueTask struct’tır. Allocation azaltır.
+
+Garbage Collector → Generational GC (Gen0, Gen1, Gen2). LOH >85KB nesneler için.
+
+Async/Await → Compiler state machine üretir. .Result deadlock riski taşır.
+
+🔹 ASP.NET Core / API
+Request Pipeline → Middleware zinciri: Exception → Routing → Auth → Endpoints.
+
+DI lifetimes → Singleton (tek instance), Scoped (request başına), Transient (her resolve’da yeni).
+
+REST vs gRPC vs GraphQL → REST: public API, gRPC: microservice içi, GraphQL: client istediğini seçer.
+
+🔹 EF Core / Veritabanı
+Tracking vs No-Tracking → Tracking: değişiklik takibi, memory maliyetli. No-Tracking: read-only için hızlı.
+
+N+1 Problem Çözümü
+
+Yanlış (N+1): her satır için ayrı sorgu.
+
+Doğru (Include): ilişkili tabloları eager loading ile tek sorguda getirir.
+
+csharp
+var users = context.Users.Include(u => u.Orders).ToList();
+ThenInclude: nested ilişkiler için.
+
+csharp
+var users = context.Users
+    .Include(u => u.Orders)
+        .ThenInclude(o => o.OrderItems)
+    .ToList();
+Projection (Select): sadece gerekli alanları çekmek.
+
+Transaction yönetimi → DbContext.Database.BeginTransaction(). Outbox pattern ile DB + broker tutarlılığı.
+
+Concurrency çözümü → Optimistic (RowVersion), Pessimistic (FOR UPDATE).
+
+🔹 Concurrency ve Threading
+Deadlock önleme → Async all the way, .Wait() kullanma, ConfigureAwait(false) kütüphanelerde.
+
+Lock vs SemaphoreSlim → Lock: senkron, in-memory. SemaphoreSlim: async senaryolar için.
+
+🔹 Cache ve Messaging
+Redis → Distributed cache, Pub/Sub, rate limiting.
+
+RabbitMQ vs Kafka → RabbitMQ: queue bazlı, transactional. Kafka: event streaming, yüksek throughput.
+
+Outbox Pattern → DB transaction ile birlikte event publish edilir. Saga ile birleştiğinde distributed consistency sağlanır.
+
+🔹 Saga Pattern
+Saga nedir? → Dağıtık transaction yönetimi. Hata olursa compensation steps devreye girer.
+
+Saga + Outbox entegrasyonu → Outbox DB’de event’i güvenli şekilde saklar, Saga orchestration ile adımların tutarlılığı sağlanır.
+
+Senaryo → Ödeme → Stok → Fatura → Bildirim zinciri. Hata olursa rollback compensation tetiklenir.
+
+🔹 Docker ve Containerization
+Docker avantajları → Taşınabilirlik, izolasyon, CI/CD entegrasyonu.
+
+Kubernetes entegrasyonu → Horizontal scaling, service discovery, health check & auto-healing.
+
+🔹 CI/CD ve Unit Test
+CI/CD pipeline adımları → Build → Unit test → Code analysis → Integration test → Deploy → Smoke test.
+
+Unit test best practices → Arrange–Act–Assert pattern, Mock bağımlılıklar (Moq, NSubstitute), coverage ölçümü (xUnit, NUnit, MSTest).
+
+Integration test → WebApplicationFactory, in-memory DB.
+
+Load test → k6, JMeter.
+
+🔹 Frontend (Angular/React)
+State management → Angular: NgRx, React: Redux.
+
+API entegrasyonu → HttpClient (Angular), Axios/Fetch (React).
+
+Performans optimizasyonu → Lazy loading, memoization, virtual DOM diffing.
 
 
 ## Yazılım Mülakatı Soruları (Junior, Medior, Senior) .NET 
