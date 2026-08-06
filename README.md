@@ -1,5 +1,27 @@
 ## Kıdemli 
 Kıdemli .NET Mülakat Soruları ve Cevapları
+Index Yapıları
+HashIndex
+
+Lookup için O(1) ortalama karmaşıklık.
+
+Sadece eşitlik sorgularında (WHERE Id = 123) hızlı.
+
+Range query veya sıralama için uygun değil.
+
+Örnek: Redis HashMap.
+
+TreeIndex (B-Tree)
+
+Hem eşitlik hem aralık sorgularında (WHERE Age > 30) uygun.
+
+ORDER BY ve range query performanslı.
+
+Daha fazla bellek kullanır ama çok yönlüdür.
+
+Örnek: SQL Server, PostgreSQL default index.
+
+Özet → Lookup için HashIndex, range/sıralama için TreeIndex. EF Core altında DB index türüne göre optimize olur.
 🔹 C# ve CLR
 Task vs ValueTask → Task heap allocation yapar, ValueTask struct’tır. Allocation azaltır.
 
